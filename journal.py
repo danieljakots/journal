@@ -5,21 +5,10 @@
 # Licensed under the MIT license. See the LICENSE file.
 
 import datetime
-import tempfile
 import os
 import subprocess
 
 REPO_PATH = "/path/to/your/journal/repo/"
-
-
-def commit_message():
-    with tempfile.NamedTemporaryFile(mode="r+", suffix=".tmp") as tf:
-        tf.write(now_to_strftime())
-        tf.flush()
-        subprocess.run(["vim", tf.name])
-        tf.seek(0)
-        edited_message = tf.read()
-    return edited_message
 
 
 def now_to_strftime():
