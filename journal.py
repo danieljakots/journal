@@ -11,9 +11,9 @@ import subprocess
 REPO_PATH = "/path/to/your/journal/repo/"
 
 
-def now_to_strftime():
+def now_to_strftime(strf_t_format):
     now = datetime.datetime.now()
-    return now.strftime("%Y/%m/%d %H:%M")
+    return now.strftime(strf_t_format)
 
 
 def run_editor(editor):
@@ -39,7 +39,7 @@ def main():
     run_editor(get_editor())
     git("add", f"{REPO_PATH}/journal.txt")
     # first, commit with a default commit message but offer the user to change it
-    git("commit", "-m", now_to_strftime())
+    git("commit", "-m", now_to_strftime("%Y/%m/%d %H:%M"))
     git("commit", "-v", "--amend")
     git("push")
 
