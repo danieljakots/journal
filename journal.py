@@ -25,12 +25,23 @@ def git(action, *args):
     subprocess.run(["git", "-C", REPO_PATH, action] + args)
 
 
+def add_day_marker(path):
+    with open(path, "r+") as f:
+        if f.readline().strip("\n") == now_to_strftime("%Y-%m-%d"):
+            return
+        f.seek(0, 0)
+        content = f.read()
+        f.seek(0, 0)
+        f.write(now_to_strftime("%Y-%m-%d") + '\n\n\n' + content)
+
+
 def get_editor():
     return os.environ.get("VISUAL") or os.environ.get("EDITOR") or "vim"
 
 
 def main():
     git("pull")
+    add_day_marker(f"{REPO_PATH}/journal.txt")
     run_editor(get_editor())
     git("add", f"{REPO_PATH}/journal.txt")
     # first, commit with a default commit message but offer the user to change it
