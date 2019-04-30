@@ -25,11 +25,6 @@ def git(action, *args):
     subprocess.run(["git", "-C", REPO_PATH, action] + args)
 
 
-def load_current_journal(path):
-    with open(path, "r") as f:
-        f.read()
-
-
 def get_editor():
     return os.environ.get("VISUAL") or os.environ.get("EDITOR") or "vim"
 
