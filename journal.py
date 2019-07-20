@@ -8,7 +8,7 @@ import datetime
 import os
 import subprocess
 
-REPO_PATH = "/path/to/your/journal/repo/"
+REPO_PATH = "~/git/journal/repo/"
 
 
 def now_to_strftime(strf_t_format):
@@ -16,13 +16,13 @@ def now_to_strftime(strf_t_format):
     return now.strftime(strf_t_format)
 
 
-def run_editor(editor):
-    subprocess.run([editor, f"{REPO_PATH}/journal.txt"])
+def run_editor(editor, repo_path):
+    subprocess.run([editor, f"{repo_path}/journal.txt"])
 
 
-def git(action, *args):
+def git(action, repo_path, *args):
     args = list(args)  # otherwise it's a tuple? wtf?
-    subprocess.run(["git", "-C", REPO_PATH, action] + args)
+    subprocess.run(["git", "-C", repo_path, action] + args)
 
 
 def add_day_marker(path):
@@ -40,14 +40,15 @@ def get_editor():
 
 
 def main():
-    git("pull")
-    add_day_marker(f"{REPO_PATH}/journal.txt")
-    run_editor(get_editor())
-    git("add", f"{REPO_PATH}/journal.txt")
+    repo_path = os.path.expanduser(REPO_PATH)
+    git("pull", repo_path)
+    add_day_marker(f"{repo_path}/journal.txt")
+    run_editor(get_editor(), repo_path)
+    git("add", repo_path, f"{repo_path}/journal.txt")
     # first, commit with a default commit message but offer the user to change it
-    git("commit", "-m", now_to_strftime("%Y/%m/%d %H:%M"))
-    git("commit", "-v", "--amend")
-    git("push")
+    git("commit", repo_path, "-m", now_to_strftime("%Y/%m/%d %H:%M"))
+    git("commit", repo_path, "-v", "--amend")
+    git("push", repo_path)
 
 
 if __name__ == "__main__":
