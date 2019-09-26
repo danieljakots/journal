@@ -1,7 +1,7 @@
 # Journal
 
 journal is a simple script to ease the manipulation/writing of a diary. You run
-one command (the script and it will `git pull` then give your editor. Once you
+one command (the script) and it will `git pull` then give your editor. Once you
 quit it, it will let you enter a commit message. A default message is the date
 if you don't want to write a specific one. Finally it pushes the result to the
 git repo so you can sync/backup your journal.
